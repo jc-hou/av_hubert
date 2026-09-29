@@ -736,13 +736,13 @@ class AVHubertModel(BaseFairseqModel):
         # x: (B, T, D), float
         # padding_mask: (B, T), bool
         # mask_indices: (B, T), bool
-        x, _ = self.encoder(
+        x, layer_results = self.encoder(
             x,
             padding_mask=padding_mask,
             layer=None if output_layer is None else output_layer - 1
         )
 
-        return x, padding_mask
+        return x, layer_results, padding_mask
 
 
     def get_extra_losses(self, net_output):
