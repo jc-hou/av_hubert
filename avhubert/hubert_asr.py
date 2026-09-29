@@ -336,7 +336,7 @@ class HubertEncoder(FairseqEncoder):
         ft = self.freeze_finetune_updates <= self.num_updates
 
         with torch.no_grad() if not ft else contextlib.ExitStack():
-            x, padding_mask = self.w2v_model.extract_finetune(**w2v_args)
+            x, _, padding_mask = self.w2v_model.extract_finetune(**w2v_args)
 
             if tbc:
                 # B x T x C -> T x B x C
@@ -383,7 +383,7 @@ class HubertEncoderWrapper(FairseqEncoder):
             "padding_mask": padding_mask,
         }
 
-        x, padding_mask = self.w2v_model.extract_finetune(**w2v_args)
+        x, _, padding_mask = self.w2v_model.extract_finetune(**w2v_args)
         # B x T x C -> T x B x C
         x = x.transpose(0, 1)
 
